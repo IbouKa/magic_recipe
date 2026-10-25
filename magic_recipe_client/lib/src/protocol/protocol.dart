@@ -17,7 +17,9 @@ import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
     as _iaic;
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import 'greetings/greeting.dart' as _izw8z7ou;
+import 'recipe.dart' as _ixmlxsuh;
 export 'greetings/greeting.dart';
+export 'recipe.dart';
 export 'client.dart';
 
 class Protocol extends _isc.SerializationManager {
@@ -57,8 +59,14 @@ class Protocol extends _isc.SerializationManager {
     if (t == _izw8z7ou.Greeting) {
       return _izw8z7ou.Greeting.fromJson(data) as T;
     }
+    if (t == _ixmlxsuh.Recipe) {
+      return _ixmlxsuh.Recipe.fromJson(data) as T;
+    }
     if (t == _isc.getType<_izw8z7ou.Greeting?>()) {
       return (data != null ? _izw8z7ou.Greeting.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ixmlxsuh.Recipe?>()) {
+      return (data != null ? _ixmlxsuh.Recipe.fromJson(data) : null) as T;
     }
     try {
       return _iaic.Protocol().deserialize<T>(data, t);
@@ -72,6 +80,7 @@ class Protocol extends _isc.SerializationManager {
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _izw8z7ou.Greeting => 'Greeting',
+      _ixmlxsuh.Recipe => 'Recipe',
       _ => null,
     };
   }
@@ -91,6 +100,8 @@ class Protocol extends _isc.SerializationManager {
     switch (data) {
       case _izw8z7ou.Greeting():
         return 'Greeting';
+      case _ixmlxsuh.Recipe():
+        return 'Recipe';
     }
     className = _iaic.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -115,6 +126,9 @@ class Protocol extends _isc.SerializationManager {
     }
     if (dataClassName == 'Greeting') {
       return deserialize<_izw8z7ou.Greeting>(data['data']);
+    }
+    if (dataClassName == 'Recipe') {
+      return deserialize<_ixmlxsuh.Recipe>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);

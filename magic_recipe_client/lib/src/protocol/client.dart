@@ -14,6 +14,7 @@ import 'dart:async' as _ida;
 import 'package:http/http.dart' as _i85jenna;
 import 'package:magic_recipe_client/src/protocol/greetings/greeting.dart'
     as _i7bygspo;
+import 'package:magic_recipe_client/src/protocol/recipe.dart' as _ilqs7wrg;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -264,6 +265,27 @@ class EndpointGreeting extends _isc.EndpointRef {
       );
 }
 
+/// This is the endpoint that will be used to generate a recipe using the
+/// Google Gemini API. It extends the Endpoint class and implements the
+/// generateRecipe method.
+/// Endpoint for AI-powered recipe generation using Gemini.
+/// Uses dependency-injected RecipeAIService, or falls back to API key from passwords.
+/// {@category Endpoint}
+class EndpointRecipes extends _isc.EndpointRef {
+  EndpointRecipes(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'recipes';
+
+  /// Accepts a string containing ingredients and returns a generated Recipe.
+  _ida.Future<_ilqs7wrg.Recipe> generateRecipe(String ingredients) =>
+      caller.callServerEndpoint<_ilqs7wrg.Recipe>(
+        'recipes',
+        'generateRecipe',
+        {'ingredients': ingredients},
+      );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -305,6 +327,7 @@ class Client extends _isc.ServerpodClientShared {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     greeting = EndpointGreeting(this);
+    recipes = EndpointRecipes(this);
     modules = Modules(this);
   }
 
@@ -314,6 +337,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointGreeting greeting;
 
+  late final EndpointRecipes recipes;
+
   late final Modules modules;
 
   @override
@@ -321,6 +346,7 @@ class Client extends _isc.ServerpodClientShared {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'greeting': greeting,
+    'recipes': recipes,
   };
 
   @override

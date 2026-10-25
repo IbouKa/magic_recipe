@@ -15,6 +15,7 @@ import 'dart:async' as _ida;
 import 'dart:io' as _idi;
 import 'package:magic_recipe_server/src/generated/greetings/greeting.dart'
     as _i7hzw3m2;
+import 'package:magic_recipe_server/src/generated/recipe.dart' as _izfmqbo9;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -157,6 +158,8 @@ class TestEndpoints {
   late final _JwtRefreshEndpoint jwtRefresh;
 
   late final _GreetingEndpoint greeting;
+
+  late final _RecipesEndpoint recipes;
 }
 
 class _InternalTestEndpoints extends TestEndpoints
@@ -175,6 +178,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     greeting = _GreetingEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    recipes = _RecipesEndpoint(
       endpoints,
       serializationManager,
     );
@@ -533,6 +540,48 @@ class _GreetingEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_i7hzw3m2.Greeting>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _RecipesEndpoint {
+  _RecipesEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<_izfmqbo9.Recipe> generateRecipe(
+    _ist.TestSessionBuilder sessionBuilder,
+    String ingredients,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'recipes',
+            method: 'generateRecipe',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'recipes',
+          methodName: 'generateRecipe',
+          parameters: _ist.testObjectToJson({'ingredients': ingredients}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_izfmqbo9.Recipe>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

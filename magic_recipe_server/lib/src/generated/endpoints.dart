@@ -18,6 +18,7 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../greetings/greeting_endpoint.dart' as _il624ik7;
+import '../recipes/endpoints/recipes_endpoint.dart' as _iqd05apa;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -39,6 +40,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'greeting',
+          null,
+        ),
+      'recipes': _iqd05apa.RecipesEndpoint()
+        ..initialize(
+          server,
+          'recipes',
           null,
         ),
     };
@@ -269,6 +276,31 @@ class Endpoints extends _is.EndpointDispatch {
                   (endpoints['greeting'] as _il624ik7.GreetingEndpoint).hello(
                     session,
                     params['name'],
+                  ),
+        ),
+      },
+    );
+    connectors['recipes'] = _is.EndpointConnector(
+      name: 'recipes',
+      endpoint: endpoints['recipes']!,
+      methodConnectors: {
+        'generateRecipe': _is.MethodConnector(
+          name: 'generateRecipe',
+          params: {
+            'ingredients': _is.ParameterDescription(
+              name: 'ingredients',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['recipes'] as _iqd05apa.RecipesEndpoint)
+                  .generateRecipe(
+                    session,
+                    params['ingredients'],
                   ),
         ),
       },
