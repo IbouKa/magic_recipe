@@ -284,6 +284,14 @@ class EndpointRecipes extends _isc.EndpointRef {
         'generateRecipe',
         {'ingredients': ingredients},
       );
+
+  /// Returns a list of all recipes.
+  _ida.Future<List<_ilqs7wrg.Recipe>> getRecipes() =>
+      caller.callServerEndpoint<List<_ilqs7wrg.Recipe>>(
+        'recipes',
+        'getRecipes',
+        {},
+      );
 }
 
 class Modules {

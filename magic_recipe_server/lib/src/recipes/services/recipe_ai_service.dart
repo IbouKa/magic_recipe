@@ -20,7 +20,7 @@ Always put the title of the recipe in the first line, and then the instructions.
   /// Generates a recipe using the provided ingredients.
   ///
   /// [ingredients] must not be empty.
-  Future<Recipe> generateRecipe(String ingredients) async {
+  Future<Recipe> generateRecipe(Session session, String ingredients) async {
     _validateIngredients(ingredients);
 
     final response = await generateContent(
@@ -39,7 +39,8 @@ Always put the title of the recipe in the first line, and then the instructions.
       ingredients: ingredients,
     );
 
-    return recipe;
+    final recipeWithId = await Recipe.db.insertRow(session, recipe);
+    return recipeWithId;
   }
 
   String _buildTextPrompt(String ingredients) {

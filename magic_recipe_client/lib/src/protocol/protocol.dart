@@ -11,6 +11,7 @@
 // ignore_for_file: dead_code, unnecessary_type_check
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:magic_recipe_client/src/protocol/recipe.dart' as _ilqs7wrg;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -67,6 +68,12 @@ class Protocol extends _isc.SerializationManager {
     }
     if (t == _isc.getType<_ixmlxsuh.Recipe?>()) {
       return (data != null ? _ixmlxsuh.Recipe.fromJson(data) : null) as T;
+    }
+    if (t == List<_ilqs7wrg.Recipe>) {
+      return (data as List)
+              .map((e) => deserialize<_ilqs7wrg.Recipe>(e))
+              .toList()
+          as T;
     }
     try {
       return _iaic.Protocol().deserialize<T>(data, t);

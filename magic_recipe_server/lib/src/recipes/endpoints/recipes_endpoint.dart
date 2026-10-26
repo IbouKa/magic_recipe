@@ -30,6 +30,14 @@ class RecipesEndpoint extends Endpoint {
   /// Accepts a string containing ingredients and returns a generated Recipe.
   Future<Recipe> generateRecipe(Session session, String ingredients) async {
     final aiService = _getAIService(session);
-    return await aiService.generateRecipe(ingredients);
+    return await aiService.generateRecipe(session, ingredients);
+  }
+
+  /// Returns a list of all recipes.
+  Future<List<Recipe>> getRecipes(Session session) async {
+    return Recipe.db.find(
+      session,
+      orderBy: (t) => t.date,
+    );
   }
 }

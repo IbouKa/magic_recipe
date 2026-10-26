@@ -303,6 +303,16 @@ class Endpoints extends _is.EndpointDispatch {
                     params['ingredients'],
                   ),
         ),
+        'getRecipes': _is.MethodConnector(
+          name: 'getRecipes',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['recipes'] as _iqd05apa.RecipesEndpoint)
+                  .getRecipes(session),
+        ),
       },
     );
     modules['serverpod_auth_idp'] = _iais.Endpoints()
