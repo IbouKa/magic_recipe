@@ -25,8 +25,12 @@ final serverUrl = getServerUrl();
 late final Client client;
 
 Future<void> initializeClient() async {
-  client = Client(await serverUrl)
-    ..connectivityMonitor = FlutterConnectivityMonitor()
-    ..authSessionManager = FlutterAuthSessionManager();
+  client =
+      Client(
+          await serverUrl,
+          connectionTimeout: const Duration(seconds: 60),
+        )
+        ..connectivityMonitor = FlutterConnectivityMonitor()
+        ..authSessionManager = FlutterAuthSessionManager();
   unawaited(client.auth.initialize());
 }
